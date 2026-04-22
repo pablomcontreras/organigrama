@@ -531,13 +531,13 @@ export default function Organigrama() {
     }
     setBranches(prev => prev.map(b => {
       if (b.id === branchId) {
-        return { ...b, people: b.people.filter(m => m.id !== personId) };
+        return { ...b, people: (b.people || []).filter(m => m.id !== personId) };
       }
       if (b.subBranches) {
         const subIndex = b.subBranches.findIndex(sb => sb.id === branchId);
         if (subIndex > -1) {
           const newSubBranches = [...b.subBranches];
-          newSubBranches[subIndex] = { ...newSubBranches[subIndex], people: newSubBranches[subIndex].people.filter(m => m.id !== personId) };
+          newSubBranches[subIndex] = { ...newSubBranches[subIndex], people: (newSubBranches[subIndex].people || []).filter(m => m.id !== personId) };
           return { ...b, subBranches: newSubBranches };
         }
       }
@@ -557,7 +557,7 @@ export default function Organigrama() {
     }
     setBranches(prev => prev.map(b => {
       if (b.id === branchId) {
-        const newPeople = [...b.people];
+        const newPeople = [...(b.people || [])];
         if (targetIndex !== undefined) newPeople.splice(targetIndex, 0, person);
         else newPeople.push(person);
         return { ...b, people: newPeople };
@@ -566,7 +566,7 @@ export default function Organigrama() {
         const subIndex = b.subBranches.findIndex(sb => sb.id === branchId);
         if (subIndex > -1) {
           const newSubBranches = [...b.subBranches];
-          const newPeople = [...newSubBranches[subIndex].people];
+          const newPeople = [...(newSubBranches[subIndex].people || [])];
           if (targetIndex !== undefined) newPeople.splice(targetIndex, 0, person);
           else newPeople.push(person);
           newSubBranches[subIndex] = { ...newSubBranches[subIndex], people: newPeople };
@@ -623,13 +623,13 @@ export default function Organigrama() {
       } else {
         setBranches(prev => prev.map(b => {
           if (b.id === branchId) {
-            return { ...b, people: b.people.map(m => m.id === finalMember.id ? finalMember : m) };
+            return { ...b, people: (b.people || []).map(m => m.id === finalMember.id ? finalMember : m) };
           }
           if (b.subBranches) {
             const subIndex = b.subBranches.findIndex(sb => sb.id === branchId);
             if (subIndex > -1) {
               const newSubBranches = [...b.subBranches];
-              newSubBranches[subIndex] = { ...newSubBranches[subIndex], people: newSubBranches[subIndex].people.map(m => m.id === finalMember.id ? finalMember : m) };
+              newSubBranches[subIndex] = { ...newSubBranches[subIndex], people: (newSubBranches[subIndex].people || []).map(m => m.id === finalMember.id ? finalMember : m) };
               return { ...b, subBranches: newSubBranches };
             }
           }
